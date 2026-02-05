@@ -1,5 +1,10 @@
 # Frontend
 
+[![Frontend CI & Deploy](https://github.com/vishalpawar75/frontend/actions/workflows/ci-deploy.yml/badge.svg?branch=dev)](https://github.com/vishalpawar75/frontend/actions/workflows/ci-deploy.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/YOUR_NETLIFY_BADGE_ID/deploy-status)](https://app.netlify.com/sites/YOUR_NETLIFY_SITE_NAME/deploys)
+
+Vakratund Hybrid Seeds public site + partner analytics UI.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
 
 ## Development server
