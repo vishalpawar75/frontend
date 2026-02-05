@@ -1,0 +1,138 @@
+<section class="analytics">
+  <header class="analytics-header">
+    <div>
+      <h1>India Agri Import & Export Analytics</h1>
+      <p>Partner-only dashboard for commodity, destination, and trend insights.</p>
+    </div>
+    <div class="badge">Restricted Access</div>
+  </header>
+
+  <div class="status" *ngIf="loading">Loading analytics...</div>
+  <div class="status error" *ngIf="error">{{ error }}</div>
+
+  <div *ngIf="data" class="analytics-grid">
+    <div class="stat-card">
+      <div class="label">Total Exports (USD)</div>
+      <div class="value">{{ data.summary.totalExportValueUsd | number }}</div>
+      <div class="sub">Top: {{ data.summary.topExportCategory }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Total Imports (USD)</div>
+      <div class="value">{{ data.summary.totalImportValueUsd | number }}</div>
+      <div class="sub">Top: {{ data.summary.topImportCategory }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">Coverage</div>
+      <div class="value">{{ data.summary.coverage }}</div>
+      <div class="sub">Updated: {{ data.updatedAt | date: 'mediumDate' }}</div>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="filters">
+    <div class="filter">
+      <label>Direction</label>
+      <select [(ngModel)]="selectedDirection">
+        <option value="export">Export</option>
+        <option value="import">Import</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label>Commodity</label>
+      <select [(ngModel)]="selectedCommodity">
+        <option value="All">All</option>
+        <option *ngFor="let item of filters?.commodities" [value]="item">{{ item }}</option>
+      </select>
+    </div>
+    <div class="filter">
+      <label>Destination</label>
+      <select [(ngModel)]="selectedCountry">
+        <option value="All">All</option>
+        <option *ngFor="let item of filters?.countries" [value]="item">{{ item }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="chart-card">
+    <div class="chart-header">
+      <h3>Quarterly Trend</h3>
+      <span>Exports vs Imports (USD)</span>
+    </div>
+    <svg viewBox="0 0 420 120" preserveAspectRatio="none">
+      <polyline class="line export" [attr.points]="buildLinePoints('exportsUsd')"></polyline>
+      <polyline class="line import" [attr.points]="buildLinePoints('importsUsd')"></polyline>
+    </svg>
+    <div class="chart-legend">
+      <span class="legend export">Exports</span>
+      <span class="legend import">Imports</span>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="tables">
+    <div class="table-card">
+      <h3>Top {{ selectedDirection | titlecase }} Commodities</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Commodity</th>
+            <th>HS Code</th>
+            <th>Value (USD)</th>
+            <th>Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of activeCommodities">
+            <td>{{ item.commodity }}</td>
+            <td>{{ item.hsCode }}</td>
+            <td>{{ item.valueUsd | number }}</td>
+            <td>{{ item.sharePct }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-card">
+      <h3>Top Export Destinations</h3>
+      <div class="bar-list">
+        <div class="bar-row" *ngFor="let item of activeDestinations">
+          <div class="bar-label">{{ item.country }}</div>
+          <div class="bar-track">
+            <div
+              class="bar-fill"
+              [style.width.%]="(item.valueUsd / maxValue(activeDestinations, 'valueUsd')) * 100"
+            ></div>
+          </div>
+          <div class="bar-value">{{ item.valueUsd | number }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="data" class="insights">
+    <div class="insight-card">
+      <h3>Top Export Destinations</h3>
+      <div class="list">
+        <div *ngFor="let item of data.topDestinations" class="list-row">
+          <span>{{ item.country }}</span>
+          <span>{{ item.valueUsd | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <h3>Quarterly Trends</h3>
+      <div class="list">
+        <div *ngFor="let trend of data.trends" class="list-row">
+          <span>{{ trend.period }}</span>
+          <span>Exports {{ trend.exportsUsd | number }}</span>
+          <span>Imports {{ trend.importsUsd | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-card note">
+      <h3>Data Note</h3>
+      <p>{{ data.status }}</p>
+      <div class="foot">Requested by {{ data.requestedBy }}</div>
+    </div>
+  </div>
+</section>

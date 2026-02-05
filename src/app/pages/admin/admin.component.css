@@ -1,0 +1,97 @@
+.admin {
+  padding: 3rem 2.5rem;
+  background: #f8f5ee;
+  min-height: calc(100vh - 72px);
+}
+
+.admin header h1 {
+  margin: 0 0 0.5rem;
+  font-size: 2.2rem;
+}
+
+.admin header p {
+  color: #5b6457;
+}
+
+.inquiry-grid {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.inquiry-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 16px 32px rgba(20, 35, 18, 0.08);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.card-header h3 {
+  margin: 0 0 0.3rem;
+}
+
+.card-header span {
+  color: #5f6c59;
+  font-size: 0.85rem;
+}
+
+.status-pill {
+  background: #1a2f1c;
+  color: #f6f2e8;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.details {
+  display: grid;
+  gap: 0.4rem;
+  color: #3f4d3a;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.2rem;
+}
+
+.actions button {
+  border: 1px solid #c9c1ad;
+  background: transparent;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.status {
+  color: #4b5b49;
+}
+
+.status.error {
+  color: #b5523c;
+}
+
+.empty {
+  margin-top: 2rem;
+  color: #5f6c59;
+}
+
+@media (max-width: 700px) {
+  .admin {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

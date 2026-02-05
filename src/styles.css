@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Manrope', 'Segoe UI', sans-serif;
+  background: #fdfcf8;
+  color: #1f2a1f;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Crimson Text', 'Georgia', serif;
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+}
+
+p {
+  margin: 0.4rem 0;
+}
+
+a {
+  color: inherit;
+}

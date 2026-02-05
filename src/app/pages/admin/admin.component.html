@@ -1,0 +1,35 @@
+<section class="admin">
+  <header>
+    <h1>Partnership Inquiries</h1>
+    <p>Review and manage incoming partnership requests.</p>
+  </header>
+
+  <div class="status" *ngIf="loading">Loading inquiries...</div>
+  <div class="status error" *ngIf="error">{{ error }}</div>
+
+  <div class="empty" *ngIf="!loading && inquiries.length === 0">
+    No inquiries yet.
+  </div>
+
+  <div class="inquiry-grid" *ngIf="inquiries.length">
+    <div class="inquiry-card" *ngFor="let inquiry of inquiries">
+      <div class="card-header">
+        <div>
+          <h3>{{ inquiry.company }}</h3>
+          <span>{{ inquiry.name }} · {{ inquiry.email }}</span>
+        </div>
+        <span class="status-pill">{{ inquiry.status }}</span>
+      </div>
+      <div class="details">
+        <div><strong>Interest:</strong> {{ inquiry.interest || '—' }}</div>
+        <div><strong>Message:</strong> {{ inquiry.message || '—' }}</div>
+        <div><strong>Received:</strong> {{ inquiry.createdAt | date: 'medium' }}</div>
+      </div>
+      <div class="actions">
+        <button (click)="updateStatus(inquiry.id, 'in_review')">Mark In Review</button>
+        <button (click)="updateStatus(inquiry.id, 'contacted')">Mark Contacted</button>
+        <button (click)="updateStatus(inquiry.id, 'closed')">Close</button>
+      </div>
+    </div>
+  </div>
+</section>

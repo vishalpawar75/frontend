@@ -1,0 +1,106 @@
+.login-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 2rem;
+  padding: 4rem 2.5rem;
+  background: linear-gradient(120deg, #f8f4eb, #f1f4ea);
+  min-height: calc(100vh - 72px);
+}
+
+.login-card {
+  background: #ffffff;
+  padding: 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 20px 40px rgba(20, 35, 18, 0.12);
+}
+
+.login-card h2 {
+  margin: 0.6rem 0 0.8rem;
+  font-size: 2rem;
+}
+
+.login-card p {
+  color: #5f6c59;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  background: #1a2f1c;
+  color: #f6f2e8;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+form {
+  margin-top: 1.8rem;
+  display: grid;
+  gap: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+input {
+  border: 1px solid #d5d8ca;
+  border-radius: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.95rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: #cc7a33;
+  color: #fff8f0;
+}
+
+.error {
+  color: #b5523c;
+  margin-top: 0.4rem;
+}
+
+.login-footer {
+  margin-top: 1.6rem;
+  color: #5f6c59;
+}
+
+.login-footer a {
+  color: #1a2f1c;
+  font-weight: 600;
+}
+
+.login-side {
+  background: #1a2f1c;
+  color: #f6f2e8;
+  padding: 2.8rem;
+  border-radius: 1.2rem;
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.login-side ul {
+  padding-left: 1.2rem;
+  color: #d6d1c2;
+}
+
+.note {
+  margin-top: 1rem;
+  color: #d6d1c2;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .login-wrap {
+    grid-template-columns: 1fr;
+  }
+}

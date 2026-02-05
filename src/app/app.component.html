@@ -1,0 +1,36 @@
+<header class="top-nav">
+  <div class="brand">
+    <div class="logo">VHS</div>
+    <div>
+      <div class="name">Vakratund Hybrid Seeds</div>
+      <div class="tag">Farmer Producer Company</div>
+    </div>
+  </div>
+
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/analytics" routerLinkActive="active">Analytics</a>
+    <a *ngIf="auth.user?.role === 'admin'" routerLink="/admin" routerLinkActive="active">Admin</a>
+    <a [routerLink]="['/']" fragment="inquiry">Partner with us</a>
+  </nav>
+
+  <div class="actions">
+    <div class="user" *ngIf="auth.user">{{ auth.user.name }}</div>
+    <a *ngIf="!auth.isAuthenticated()" class="btn ghost" routerLink="/login">Sign in</a>
+    <button *ngIf="auth.isAuthenticated()" class="btn ghost" (click)="logout()">Sign out</button>
+  </div>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer class="footer">
+  <div>
+    <strong>Vakratund Hybrid Seeds Private Limited</strong>
+    <p>Seed production partnerships across India.</p>
+  </div>
+  <div class="footer-meta">
+    <span>Partner analytics available on request.</span>
+  </div>
+</footer>

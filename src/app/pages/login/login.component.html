@@ -1,0 +1,36 @@
+<section class="login-wrap">
+  <div class="login-card">
+    <div class="badge">Partner Access</div>
+    <h2>Analytics Login</h2>
+    <p>Trade analytics are restricted to approved partners.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+      <label>
+        Work email
+        <input type="email" formControlName="email" placeholder="partner@company.com" />
+      </label>
+      <label>
+        Password
+        <input type="password" formControlName="password" placeholder="••••••••" />
+      </label>
+      <button class="btn primary" type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+      <div class="error" *ngIf="error">{{ error }}</div>
+    </form>
+
+    <div class="login-footer">
+      Need access? <a routerLink="/">Request partnership</a>
+    </div>
+  </div>
+
+  <div class="login-side">
+    <h3>What you’ll get</h3>
+    <ul>
+      <li>India import/export dashboards by commodity & destination</li>
+      <li>Monthly trend analysis and growth metrics</li>
+      <li>Exportable partner reports in PDF/Excel</li>
+    </ul>
+    <div class="note">Access is granted after verification by Vakratund.</div>
+  </div>
+</section>

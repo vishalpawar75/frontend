@@ -1,0 +1,201 @@
+<section class="hero">
+  <div class="hero-content">
+    <div class="pill">Vakratund Hybrid Seeds Private Limited</div>
+    <h1>
+      Seed Production Partnerships
+      <span>Backed by an organized farmer network.</span>
+    </h1>
+    <p>
+      We are a Farmer Producer Company (FPC) specializing in vegetable and field crop seed production.
+      Our platform helps agribusinesses identify capacity, geography, and crop expertise—then move fast
+      on long-term partnerships.
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#inquiry">Start a partnership</a>
+      <a class="btn ghost" routerLink="/login">Partner analytics login</a>
+    </div>
+    <div class="hero-highlights">
+      <div class="highlight">
+        <div class="value">40K+</div>
+        <div class="label">Farmer network reach</div>
+      </div>
+      <div class="highlight">
+        <div class="value">18+</div>
+        <div class="label">Crop lines managed</div>
+      </div>
+      <div class="highlight">
+        <div class="value">12</div>
+        <div class="label">Production clusters</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-panel">
+    <div class="panel-card">
+      <h3>India Agri Trade Insights</h3>
+      <p>
+        Full import/export analytics are available only to verified partners. Secure login required for
+        detailed commodity and destination breakdowns.
+      </p>
+      <div class="metric-row">
+        <div>
+          <div class="metric">Top 5 export lines</div>
+          <div class="metric-sub">Spices, seeds, rice, cotton</div>
+        </div>
+        <div>
+          <div class="metric">Monthly refresh</div>
+          <div class="metric-sub">Official data pipelines</div>
+        </div>
+      </div>
+      <a class="btn primary" routerLink="/login">Unlock analytics</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>About Vakratund</h2>
+    <p>
+      We connect leading seed companies with reliable production programs, providing a single point of
+      accountability from planning to dispatch.
+    </p>
+  </div>
+
+  <div class="about-grid" *ngIf="profile">
+    <div class="about-card">
+      <h3>Our Focus</h3>
+      <p>{{ profile.focus }}</p>
+      <ul>
+        <li *ngFor="let strength of profile.strengths">{{ strength }}</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>Geographic Presence</h3>
+      <p>Cluster-based operations for predictable scaling.</p>
+      <ul>
+        <li *ngFor="let location of profile.locations">{{ location }}</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3>Crop Expertise</h3>
+      <p>Vegetable and field crops with seasonal rotation plans.</p>
+      <div class="tag-grid">
+        <span *ngFor="let crop of profile.crops">{{ crop }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="section-header">
+    <h2>Production Capabilities</h2>
+    <p>Structured workflows designed for predictable quality and scalable volumes.</p>
+  </div>
+
+  <div class="capability-grid">
+    <div class="capability">
+      <h4>Season Planning</h4>
+      <p>Crop calendars mapped to region-specific sowing windows and forecasted demand.</p>
+    </div>
+    <div class="capability">
+      <h4>Field Supervision</h4>
+      <p>Dedicated supervisors track isolation distance, purity checks, and pest management.</p>
+    </div>
+    <div class="capability">
+      <h4>Quality Assurance</h4>
+      <p>Germination, moisture, and physical purity tests at multiple checkpoints.</p>
+    </div>
+    <div class="capability">
+      <h4>Traceability</h4>
+      <p>Batch-level reporting with grower, plot, and harvest metadata.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-header">
+    <h2>How We Partner</h2>
+    <p>A clear, low-friction onboarding flow for new seed production collaborations.</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="step-number">01</div>
+      <div>
+        <h4>Capability Match</h4>
+        <p>We align your crop requirements with regional capacity and grower readiness.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-number">02</div>
+      <div>
+        <h4>Field Planning</h4>
+        <p>Season plans, isolation maps, and crop schedules are finalized with your team.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-number">03</div>
+      <div>
+        <h4>Production & QA</h4>
+        <p>On-ground monitoring with periodic quality reporting and issue escalation.</p>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="step-number">04</div>
+      <div>
+        <h4>Harvest & Delivery</h4>
+        <p>Controlled harvest, post-processing support, and batch documentation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact" id="inquiry">
+  <div class="section-header">
+    <h2>Start a Partnership</h2>
+    <p>Tell us about your crop and volume needs. We’ll respond with feasibility and timelines.</p>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>Reach Us</h3>
+      <p>{{ profile?.contact?.address }}</p>
+      <div class="contact-line">Email: {{ profile?.contact?.email }}</div>
+      <div class="contact-line">Phone: {{ profile?.contact?.phone }}</div>
+      <div class="contact-note">We typically respond within 2 business days.</div>
+    </div>
+
+    <form class="contact-form" [formGroup]="inquiryForm" (ngSubmit)="submitInquiry()">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" placeholder="Your name" />
+        <span *ngIf="inquiryForm.get('name')?.touched && inquiryForm.get('name')?.invalid">Enter your name.</span>
+      </div>
+      <div class="field">
+        <label for="email">Work Email</label>
+        <input id="email" type="email" formControlName="email" placeholder="you@company.com" />
+        <span *ngIf="inquiryForm.get('email')?.touched && inquiryForm.get('email')?.invalid">Enter a valid email.</span>
+      </div>
+      <div class="field">
+        <label for="company">Company</label>
+        <input id="company" type="text" formControlName="company" placeholder="Company name" />
+        <span *ngIf="inquiryForm.get('company')?.touched && inquiryForm.get('company')?.invalid">Enter company name.</span>
+      </div>
+      <div class="field">
+        <label for="interest">Partnership Focus</label>
+        <select id="interest" formControlName="interest">
+          <option>Seed production partnership</option>
+          <option>Vegetable crop program</option>
+          <option>Field crop program</option>
+          <option>Multi-season contract</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="message">Notes</label>
+        <textarea id="message" rows="4" formControlName="message" placeholder="Share volumes, timelines, or target crops"></textarea>
+      </div>
+      <button class="btn primary" type="submit" [disabled]="loading">{{ loading ? 'Sending...' : 'Submit inquiry' }}</button>
+      <div class="form-status" *ngIf="message">{{ message }}</div>
+      <div class="form-status error" *ngIf="error">{{ error }}</div>
+    </form>
+  </div>
+</section>
