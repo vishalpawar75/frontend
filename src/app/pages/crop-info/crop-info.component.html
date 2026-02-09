@@ -1,0 +1,286 @@
+<section class="crop-hero">
+  <div>
+    <div class="pill">Farm Advisory</div>
+    <h1>Crop Information & Varieties</h1>
+    <p>Search a crop to get varieties, key specifications, and seasonal guidance in your language.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="value">{{ totalCategories }}</div>
+        <div class="label">Crop categories</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ totalCrops }}</div>
+        <div class="label">Crops available</div>
+      </div>
+      <div class="stat">
+        <div class="value">{{ totalLanguages }}</div>
+        <div class="label">Languages</div>
+      </div>
+    </div>
+    <div class="hero-tips">
+      <div class="tip">Tap any crop to open a quick guide with images and tips.</div>
+      <div class="tip">Use filters to narrow by season, duration, soil, or state.</div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn ghost" routerLink="/diagnose">Diagnose crop issue</a>
+    </div>
+  </div>
+  <div class="hero-controls sticky-search">
+    <div class="control">
+      <label>Language</label>
+      <select [(ngModel)]="selectedLanguage" (ngModelChange)="setLanguage($event)">
+        <option *ngFor="let lang of languages" [value]="lang.id">{{ lang.label }}</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Search crop</label>
+      <input type="text" placeholder="Type crop name" [(ngModel)]="query" (keyup.enter)="applySearch()" />
+      <div class="search-actions">
+        <button (click)="applySearch()">Search</button>
+        <button class="ghost" (click)="clearSearch()">Clear</button>
+      </div>
+    </div>
+    <div class="control">
+      <label>Category</label>
+      <select [(ngModel)]="selectedCategory">
+        <option value="all">All categories</option>
+        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Season</label>
+      <select [(ngModel)]="selectedSeason">
+        <option value="all">All seasons</option>
+        <option *ngFor="let season of seasonOptions" [value]="season.toLowerCase()">{{ season }}</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Duration</label>
+      <select [(ngModel)]="selectedDuration">
+        <option value="all">All durations</option>
+        <option *ngFor="let duration of durationOptions" [value]="duration">{{ duration }}</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>Soil</label>
+      <select [(ngModel)]="selectedSoil">
+        <option value="all">All soil types</option>
+        <option *ngFor="let soil of soilOptions" [value]="soil.toLowerCase()">{{ soil }}</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>State (recommended)</label>
+      <select [(ngModel)]="selectedState">
+        <option value="all">All states</option>
+        <option *ngFor="let state of stateOptions" [value]="state">{{ state }}</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="crop-content">
+  <aside class="crop-list">
+    <h3>Available crops</h3>
+    <div class="quick-search">
+      <input type="text" placeholder="Quick search" [(ngModel)]="query" (keyup.enter)="applySearch()" />
+      <button (click)="applySearch()">Go</button>
+    </div>
+    <div class="quick-filters">
+      <div class="label">Active filters</div>
+      <div class="filter-chips">
+        <span *ngIf="selectedCategory !== 'all'">Category: {{ selectedCategory }}</span>
+        <span *ngIf="selectedSeason !== 'all'">Season</span>
+        <span *ngIf="selectedDuration !== 'all'">Duration</span>
+        <span *ngIf="selectedSoil !== 'all'">Soil</span>
+        <span *ngIf="selectedState !== 'all'">State</span>
+        <span *ngIf="selectedCategory === 'all' && selectedSeason === 'all' && selectedDuration === 'all' && selectedSoil === 'all' && selectedState === 'all'">None</span>
+      </div>
+      <button class="ghost" (click)="clearSearch()">Clear filters</button>
+    </div>
+    <div class="quick-section">
+      <div class="label">Seasonal picks</div>
+      <div class="filter-chips">
+        <button
+          class="chip-button"
+          *ngFor="let season of seasonalFilters"
+          (click)="selectedSeason = season.id; applySearch()"
+        >
+          {{ season.label }}
+        </button>
+      </div>
+    </div>
+    <div class="quick-section">
+      <div class="label">Popular crops</div>
+      <div class="chip-list">
+        <button *ngFor="let crop of popularCrops" (click)="openModal(crop)">
+          {{ crop.name }}
+        </button>
+      </div>
+    </div>
+    <div class="quick-section" *ngIf="savedList.length">
+      <div class="label">Saved crops</div>
+      <div class="chip-list">
+        <button *ngFor="let crop of savedList" (click)="openModal(crop)">
+          {{ crop.name }}
+        </button>
+      </div>
+    </div>
+    <div class="status" *ngIf="loading">Loading crops...</div>
+    <div class="status error" *ngIf="error">{{ error }}</div>
+    <div class="list">
+      <ng-container *ngFor="let category of filteredCategories">
+        <div class="category-label">{{ category.name }}</div>
+        <div class="crop-row" *ngFor="let crop of category.crops">
+          <button
+            (click)="openModal(crop)"
+            [class.active]="crop.id === activeCrop?.id"
+          >
+            {{ crop.name }}
+          </button>
+          <button class="save" (click)="toggleSave(crop); $event.stopPropagation()">
+            {{ savedCrops.has(crop.id) ? 'Saved' : 'Save' }}
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </aside>
+
+  <div class="crop-details" *ngIf="activeCrop">
+    <div class="header">
+      <h2>{{ activeCrop.name }}</h2>
+      <p>{{ activeCrop.description }}</p>
+    </div>
+
+    <div class="spec-grid">
+      <div class="spec">
+        <span>Season</span>
+        <strong>{{ activeCrop.season }}</strong>
+      </div>
+      <div class="spec">
+        <span>Soil</span>
+        <strong>{{ activeCrop.soil }}</strong>
+      </div>
+      <div class="spec">
+        <span>Spacing</span>
+        <strong>{{ activeCrop.spacing }}</strong>
+      </div>
+      <div class="spec">
+        <span>Seed rate</span>
+        <strong>{{ activeCrop.seedRate }}</strong>
+      </div>
+      <div class="spec">
+        <span>Irrigation</span>
+        <strong>{{ activeCrop.irrigation }}</strong>
+      </div>
+      <div class="spec">
+        <span>Fertilizer</span>
+        <strong>{{ activeCrop.fertilizer }}</strong>
+      </div>
+      <div class="spec" *ngIf="activeCrop.durationDays">
+        <span>Duration</span>
+        <strong>{{ activeCrop.durationDays }}</strong>
+      </div>
+    </div>
+
+    <div class="variety-section">
+      <h3>Recommended varieties</h3>
+      <div class="audio-controls">
+        <button (click)="readAloud()">Listen</button>
+        <button class="ghost" (click)="stopAudio()">Stop</button>
+        <button class="ghost" (click)="readRegional()">Listen regional</button>
+        <button class="ghost" (click)="downloadPdf()">Download PDF</button>
+        <span class="audio-status">{{ audioStatus }}</span>
+      </div>
+      <div class="variety-grid">
+        <div class="variety" *ngFor="let variety of activeCrop.varieties">
+          <div class="variety-head">
+            <h4>{{ variety.name }}</h4>
+            <span>{{ variety.maturityDays }}</span>
+          </div>
+          <div class="variety-row"><strong>Expected yield:</strong> {{ variety.yield }}</div>
+          <div class="chips">
+            <span *ngFor="let trait of variety.traits">{{ trait }}</span>
+          </div>
+        <button class="listen-more" (click)="readVariety(variety)">Listen more</button>
+      </div>
+        <div class="variety empty" *ngIf="activeCrop.varieties.length === 0">
+          Variety details will appear once added by the agronomy team.
+        </div>
+      </div>
+    </div>
+
+    <div class="regional" *ngIf="activeCrop.recommendedStates?.length">
+      <h3>Regional recommendations</h3>
+      <p>Common growing states: {{ activeCrop.recommendedStates?.join(', ') }}</p>
+    </div>
+
+    <div class="credits" *ngIf="activeCrop.imageCredit || activeCrop.stages?.length">
+      <h3>Image credits</h3>
+      <div class="credit" *ngIf="activeCrop.imageCredit">
+        <strong>Main image:</strong>
+        <span>{{ activeCrop.imageCredit.title }}</span>
+        <span> by {{ activeCrop.imageCredit.author }}</span>
+        <span> ({{ activeCrop.imageCredit.license }})</span>
+        <a [href]="activeCrop.imageCredit.sourceUrl" target="_blank" rel="noopener">Source</a>
+      </div>
+      <div class="credit" *ngIf="activeCrop.stages?.[stageIndex]?.credit">
+        <strong>Stage image:</strong>
+        <span>{{ activeCrop.stages?.[stageIndex]?.credit?.title }}</span>
+        <span> by {{ activeCrop.stages?.[stageIndex]?.credit?.author }}</span>
+        <span> ({{ activeCrop.stages?.[stageIndex]?.credit?.license }})</span>
+        <a [href]="activeCrop.stages?.[stageIndex]?.credit?.sourceUrl" target="_blank" rel="noopener">Source</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" *ngIf="activeCrop && isModalOpen" (click)="closeModal()">
+  <div class="modal-card" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="closeModal()">Close</button>
+    <div class="modal-header">
+      <div>
+        <h2>{{ activeCrop.name }}</h2>
+        <p>{{ activeCrop.description }}</p>
+      </div>
+      <div class="modal-image">
+        <img [src]="activeCrop.imageUrl || 'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=800&auto=format&fit=crop'" [alt]="activeCrop.name" />
+      </div>
+    </div>
+    <div class="stage-slider" *ngIf="activeCrop.stages?.length">
+      <div class="stage-header">
+        <h3>Crop stages</h3>
+      <div class="stage-label">{{ activeCrop?.stages?.[stageIndex]?.label }}</div>
+      </div>
+      <div class="stage-image">
+        <img [src]="activeCrop?.stages?.[stageIndex]?.imageUrl" [alt]="activeCrop?.stages?.[stageIndex]?.label" />
+      </div>
+      <ul class="stage-tips">
+        <li *ngFor="let tip of activeCrop?.stages?.[stageIndex]?.tips">{{ tip }}</li>
+      </ul>
+      <div class="stage-controls">
+        <button (click)="prevStage()">Prev</button>
+        <button class="ghost" (click)="nextStage()">Next</button>
+      </div>
+      <div class="stage-dots">
+        <button
+          *ngFor="let stage of activeCrop.stages; let i = index"
+          [class.active]="i === stageIndex"
+          (click)="setStage(i)"
+        ></button>
+      </div>
+    </div>
+    <div class="spec-grid">
+      <div class="spec"><span>Season</span><strong>{{ activeCrop.season }}</strong></div>
+      <div class="spec"><span>Soil</span><strong>{{ activeCrop.soil }}</strong></div>
+      <div class="spec"><span>Spacing</span><strong>{{ activeCrop.spacing }}</strong></div>
+      <div class="spec"><span>Seed rate</span><strong>{{ activeCrop.seedRate }}</strong></div>
+      <div class="spec"><span>Irrigation</span><strong>{{ activeCrop.irrigation }}</strong></div>
+      <div class="spec"><span>Fertilizer</span><strong>{{ activeCrop.fertilizer }}</strong></div>
+      <div class="spec" *ngIf="activeCrop.durationDays"><span>Duration</span><strong>{{ activeCrop.durationDays }}</strong></div>
+    </div>
+    <div class="regional" *ngIf="activeCrop.recommendedStates?.length">
+      <h3>Regional recommendations</h3>
+      <p>Common growing states: {{ activeCrop.recommendedStates?.join(', ') }}</p>
+    </div>
+  </div>
+</div>

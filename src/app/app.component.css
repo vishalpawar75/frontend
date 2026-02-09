@@ -3,9 +3,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  padding: 1rem 2.5rem;
-  background: #fdfcf8;
+  padding: 0.9rem 1.4rem;
+  background: rgba(253, 252, 248, 0.92);
   border-bottom: 1px solid #ece7dc;
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -18,17 +19,23 @@
 }
 
 .logo {
-  width: 44px;
-  height: 44px;
+  width: 80px;
+  height: 80px;
   border-radius: 12px;
   background: #1a2f1c;
-  color: #f6f2e8;
   display: grid;
   place-items: center;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  overflow: hidden;
+  padding: 4px;
 }
 
+.logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 10px;
+}
 .name {
   font-weight: 700;
   font-size: 1rem;
@@ -42,7 +49,7 @@
 
 nav {
   display: flex;
-  gap: 1.4rem;
+  gap: 0.8rem;
 }
 
 nav a {
@@ -50,10 +57,13 @@ nav a {
   color: #2d3c2a;
   font-weight: 600;
   font-size: 0.95rem;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
 }
 
 nav a.active {
   color: #cc7a33;
+  background: #f5efe4;
 }
 
 .actions {
@@ -78,6 +88,7 @@ nav a.active {
 
 main {
   min-height: calc(100vh - 160px);
+  padding-bottom: 0;
 }
 
 .footer {
@@ -87,6 +98,21 @@ main {
   padding: 2rem 2.5rem;
   background: #1a2f1c;
   color: #f6f2e8;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.footer-brand img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 3px;
 }
 
 .footer p {
@@ -103,13 +129,67 @@ main {
   .top-nav {
     flex-direction: column;
     align-items: flex-start;
+    padding: 0.9rem 1rem 0.6rem;
   }
 
   nav {
+    flex-wrap: wrap;
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 0.4rem;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
     flex-wrap: wrap;
   }
 
   .footer {
     flex-direction: column;
+  }
+}
+
+.mobile-tabbar {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  main {
+    padding-bottom: 64px;
+  }
+
+  .mobile-tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.2rem;
+    background: rgba(253, 252, 248, 0.96);
+    border-top: 1px solid #ece7dc;
+    padding: 0.5rem 0.6rem;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+  }
+
+  .mobile-tabbar a {
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #2d3c2a;
+    padding: 0.45rem 0.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+  }
+
+  .mobile-tabbar a.active {
+    background: #f5efe4;
+    color: #cc7a33;
+  }
+
+  .footer {
+    padding-bottom: 5rem;
   }
 }

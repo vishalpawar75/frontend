@@ -1,6 +1,8 @@
 <header class="top-nav">
   <div class="brand">
-    <div class="logo">VHS</div>
+    <div class="logo">
+      <img src="/assets/vakratund-logo.png" alt="Vakratund Hybrid Seeds logo" />
+    </div>
     <div>
       <div class="name">Vakratund Hybrid Seeds</div>
       <div class="tag">Farmer Producer Company</div>
@@ -9,7 +11,9 @@
 
   <nav>
     <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+    <a routerLink="/crops" routerLinkActive="active">Crop Info</a>
     <a routerLink="/analytics" routerLinkActive="active">Analytics</a>
+    <a routerLink="/diagnose" routerLinkActive="active">Diagnose</a>
     <a *ngIf="auth.user?.role === 'admin'" routerLink="/admin" routerLinkActive="active">Admin</a>
     <a [routerLink]="['/']" fragment="inquiry">Partner with us</a>
   </nav>
@@ -21,13 +25,23 @@
   </div>
 </header>
 
+<nav class="mobile-tabbar">
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  <a routerLink="/crops" routerLinkActive="active">Crops</a>
+  <a routerLink="/diagnose" routerLinkActive="active">Diagnose</a>
+  <a routerLink="/analytics" routerLinkActive="active">Analytics</a>
+</nav>
+
 <main>
   <router-outlet></router-outlet>
 </main>
 
 <footer class="footer">
   <div>
-    <strong>Vakratund Hybrid Seeds Private Limited</strong>
+    <div class="footer-brand">
+      <img src="/assets/vakratund-logo.png" alt="Vakratund Hybrid Seeds logo" />
+      <strong>Vakratund Hybrid Seeds Private Limited</strong>
+    </div>
     <p>Seed production partnerships across India.</p>
   </div>
   <div class="footer-meta">

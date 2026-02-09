@@ -1,5 +1,5 @@
 .analytics {
-  padding: 3.5rem 2.5rem;
+  padding: 2.6rem 1.6rem;
   background: #f7f6f1;
   min-height: calc(100vh - 72px);
 }
@@ -172,6 +172,15 @@
   font-size: 0.9rem;
 }
 
+.table-card {
+  overflow-x: auto;
+}
+
+.table-card table th,
+.table-card table td {
+  min-width: 110px;
+}
+
 .bar-list {
   display: grid;
   gap: 0.8rem;
@@ -253,10 +262,15 @@
 
 @media (max-width: 720px) {
   .analytics {
-    padding: 3rem 1.5rem;
+    padding: 2.2rem 1.2rem;
   }
 
   .analytics-header {
     flex-direction: column;
+  }
+
+  .chart-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

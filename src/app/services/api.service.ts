@@ -14,6 +14,20 @@ export class ApiService {
     return this.http.get(`${this.baseUrl}/public/company`);
   }
 
+  getCrops(lang: string, query = ''): Observable<any> {
+    const params: any = { lang };
+    if (query) params.q = query;
+    return this.http.get(`${this.baseUrl}/public/crops`, { params });
+  }
+
+  getCropById(id: string, lang: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/public/crops/${id}`, { params: { lang } });
+  }
+
+  diagnoseCrop(payload: { imageData: string; language: string }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/public/diagnose`, payload);
+  }
+
   submitInquiry(payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/public/inquiry`, payload);
   }

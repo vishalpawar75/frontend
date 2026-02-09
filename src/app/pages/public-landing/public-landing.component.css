@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
   gap: 2.5rem;
-  padding: 4.5rem 2.5rem 3.5rem;
+  padding: 3rem 1.6rem 2.5rem;
   background: radial-gradient(circle at 15% 20%, #f9f5ea 0%, #f2efe6 35%, #f8fbf5 100%);
   border-bottom: 1px solid #e1dfd6;
 }
@@ -42,6 +42,27 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 1.5rem;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.brand-row img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.brand-row .pill {
+  margin-bottom: 0;
 }
 
 .hero-actions {
@@ -114,7 +135,7 @@
 }
 
 .section {
-  padding: 4rem 2.5rem;
+  padding: 3rem 1.6rem;
 }
 
 .section.dark {
@@ -313,18 +334,46 @@
   .contact-grid {
     grid-template-columns: 1fr;
   }
+
+  .hero-panel {
+    justify-content: stretch;
+  }
 }
 
 @media (max-width: 600px) {
   .hero {
-    padding: 3rem 1.5rem;
+    padding: 2.4rem 1.2rem;
   }
 
   .section {
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.2rem;
   }
 
   .hero-highlights {
     grid-template-columns: 1fr;
+  }
+
+  .hero-highlights .highlight {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-card {
+    padding: 1.6rem;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .contact-card,
+  .contact-form {
+    padding: 1.5rem;
   }
 }

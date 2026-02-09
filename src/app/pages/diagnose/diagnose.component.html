@@ -1,0 +1,114 @@
+<section class="diagnose">
+  <header class="diagnose-hero">
+    <div>
+      <h1>{{ t.title }}</h1>
+      <p>{{ t.subtitle }}</p>
+      <div class="disclaimer">{{ t.disclaimer }}</div>
+    </div>
+    <div class="diagnose-controls">
+      <label>{{ t.language }}</label>
+      <select [(ngModel)]="selectedLanguage">
+        <option *ngFor="let lang of languages" [value]="lang.id">{{ lang.label }}</option>
+      </select>
+      <label>{{ t.upload }}</label>
+      <input type="file" accept="image/*" (change)="onFileSelected($event)" />
+      <div class="note">{{ t.support }}</div>
+      <button class="primary" (click)="diagnose()" [disabled]="loading">{{ loading ? t.analyzing : t.diagnose }}</button>
+      <div class="status error" *ngIf="error">{{ error }}</div>
+    </div>
+  </header>
+
+  <div class="diagnose-body">
+    <div class="preview" *ngIf="imagePreview">
+      <h3>{{ t.preview }}</h3>
+      <img [src]="imagePreview" alt="Crop preview" />
+    </div>
+
+    <div class="result" *ngIf="result">
+      <div class="result-header">
+        <h3>{{ t.result }}</h3>
+        <button class="primary download" (click)="downloadReport()">Download PDF report</button>
+      </div>
+
+      <div class="result-feed">
+        <div class="feed-card">
+          <div class="feed-icon">🩺</div>
+          <div>
+            <div class="label">{{ t.issue }}</div>
+            <div class="value">{{ issueText }}</div>
+          </div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-icon">{{ categoryIcon }}</div>
+          <div>
+            <div class="label">{{ t.category }}</div>
+            <div class="value">{{ categoryText }}</div>
+          </div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-icon">📊</div>
+          <div class="confidence-block">
+            <div class="label">{{ t.confidence }}</div>
+            <div class="value" [class]="confidenceText">{{ confidenceText }}</div>
+            <div class="confidence-bar">
+              <span [style.width.%]="confidencePercent"></span>
+            </div>
+            <div class="legend">
+              <span class="low">Low</span>
+              <span class="medium">Medium</span>
+              <span class="high">High</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-icon">⚠️</div>
+          <div>
+            <div class="label">Severity</div>
+            <div class="value" [class]="confidenceText">{{ severity }}</div>
+          </div>
+        </div>
+
+        <div class="feed-card" *ngIf="symptomsList.length">
+          <div class="feed-icon">🔎</div>
+          <div>
+            <div class="label">{{ t.symptoms }}</div>
+            <ul>
+              <li *ngFor="let item of symptomsList">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feed-card" *ngIf="actionsList.length">
+          <div class="feed-icon">✅</div>
+          <div>
+            <div class="label">{{ t.actions }}</div>
+            <ul>
+              <li *ngFor="let item of actionsList">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feed-card" *ngIf="escalationText">
+          <div class="feed-icon">📞</div>
+          <div>
+            <div class="label">{{ t.escalation }}</div>
+            <p>{{ escalationText }}</p>
+          </div>
+        </div>
+
+        <div class="feed-card">
+          <div class="feed-icon">🧭</div>
+          <div>
+            <div class="label">Safe management plan</div>
+            <ul>
+              <li *ngFor="let item of safePlanList">{{ item }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
